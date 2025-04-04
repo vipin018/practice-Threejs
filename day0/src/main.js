@@ -38,6 +38,7 @@ const material = new THREE.MeshStandardMaterial({
     color: "cadetblue",
     roughness: 0.2,
     metalness: 0.7,
+    side: THREE.DoubleSide,
     
  });
 // const material = new THREE.MeshNormalMaterial({ wireframe: false });
@@ -84,19 +85,15 @@ scene.add(plane);
 plane.scale.set(0.15, 0.15, 0.1);
 plane.position.set(2, -2, 0);
 
+
 scene.add(ring);
 ring.scale.set(0.3, 0.3, 2);
 ring.position.set(-2, -2, 0);
 
-
-
-
-
-
-
-
-
-
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({ color: "lavender" }));
+floor.scale.set(10, 10, 1);
+floor.position.z = -1;
+scene.add(floor);
 
 
 const control = new OrbitControls(camera, renderer.domElement);
@@ -106,6 +103,15 @@ function animate() {
     requestAnimationFrame(animate);
     control.update();
     renderer.render(scene, camera);
+    cube.rotation.x += Math.sin(0.01);
+    sphere.rotation.y += Math.sin(0.01);
+    capsule.rotation.z += Math.sin(0.01);
+    cylinder.rotation.x += Math.sin(0.01);
+    torus.rotation.y += Math.sin(0.01);
+    cone.rotation.z += Math.sin(0.01);
+    torusKnot.rotation.x += Math.sin(0.01);
+    plane.rotation.y += Math.sin(0.01);
+    ring.rotation.z += Math.sin(0.01);
 }
 
 animate();
