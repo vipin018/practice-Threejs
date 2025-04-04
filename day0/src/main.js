@@ -90,11 +90,10 @@ scene.add(ring);
 ring.scale.set(0.3, 0.3, 2);
 ring.position.set(-2, -2, 0);
 
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({ color: "lavender" }));
-floor.scale.set(10, 10, 1);
-floor.position.z = -1;
-scene.add(floor);
-
+const group = new THREE.Group();
+group.add(cube, sphere, capsule, cylinder, torus, cone, torusKnot, plane, ring);
+scene.add(group);
+group.position.set(0, -0.5, 0);
 
 const control = new OrbitControls(camera, renderer.domElement);
 control.enableDamping = true;
@@ -112,6 +111,7 @@ function animate() {
     torusKnot.rotation.x += Math.sin(0.01);
     plane.rotation.y += Math.sin(0.01);
     ring.rotation.z += Math.sin(0.01);
+
 }
 
 animate();
