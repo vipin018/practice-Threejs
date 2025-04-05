@@ -1,0 +1,64 @@
+⚔️ Task 3: Dynamic Materials & Realistic Shadows (Advanced)
+💡 Objective:
+Create a rich, dynamic scene showcasing material behavior under light — pushing realism and interactivity.
+
+✅ Must-Haves:
+6+ Objects using a different material each:
+
+MeshStandardMaterial
+
+MeshPhysicalMaterial
+
+MeshToonMaterial
+
+MeshDepthMaterial
+
+MeshNormalMaterial
+
+MeshBasicMaterial
+
+Dynamic Lighting:
+
+Add a PointLight that moves in real time (circular motion or user-controlled).
+
+Use SpotLight with visible cone + shadows enabled.
+
+Realistic Shadows:
+
+Tweak light.shadow.mapSize, bias, and camera settings for crisp shadows.
+
+Set up a plane floor that receives shadows perfectly.
+
+Ensure all objects cast shadows properly.
+
+GUI Panel:
+
+Add live control of:
+
+light intensity, light color
+
+material roughness, metalness, or clearCoat (for physical material)
+
+shadow darkness
+
+Camera / Control:
+
+OrbitControls with autoRotate toggle
+
+Optional: Add camera zoom effect based on time (GSAP or custom animation)
+
+Animations (GSAP or custom):
+
+Animate at least 3 materials dynamically (e.g., changing roughness, color over time).
+
+Move 2–3 objects in loops to reflect the lighting.
+
+💎 Bonus XP:
+Add an HDRI environment map using RGBELoader for material reflections.
+
+Load custom textures (diffuse, roughness, normal maps) on at least one object.
+
+Try a “night mode” toggle via GUI that changes light color and material properties.
+
+🎯 Final Tip:
+Make it feel like a scene from a material test lab. Functional, interactive, but also aesthetic.
