@@ -1,0 +1,11 @@
+Model Information:
+* title:	Monkey DJ (Animated)
+* source:	https://sketchfab.com/3d-models/monkey-dj-animated-dfa60c2109bb4723b8b10ae52a98f85e
+* author:	Jungle Jim (https://sketchfab.com/jungle_jim)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Monkey DJ (Animated)" (https://sketchfab.com/3d-models/monkey-dj-animated-dfa60c2109bb4723b8b10ae52a98f85e) by Jungle Jim (https://sketchfab.com/jungle_jim) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
