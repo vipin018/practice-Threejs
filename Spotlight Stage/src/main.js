@@ -193,6 +193,8 @@ function fadeInCrowd() {
   };
 }
 
+
+
 // GUI
 const gui = new GUI();
 const folder = gui.addFolder('🎛 Concert Controls');
@@ -230,7 +232,7 @@ function animate() {
     flashLight.color.lerp(color, 0.1);
     colorTimer = time;
   }
-  flashLight.intensity = Math.abs(Math.sin(time * 10)) * 10;
+  flashLight.intensity = Math.abs(Math.sin(time * 10));
 
   overheadSpot.position.x = Math.sin(time * 0.5);
   overheadSpot.position.z = Math.cos(time * 0.5);
