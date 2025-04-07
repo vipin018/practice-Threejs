@@ -20,6 +20,7 @@ const renderer = new THREE.WebGLRenderer({
     antialias: true,
 });
 renderer.shadowMap.enabled = true;
+
 // stats
 const stats = new Stats();
 document.body.appendChild(stats.dom);
