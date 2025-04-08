@@ -41,7 +41,7 @@ class RainyScene {
     this.LAMP_COLOR = 0xffc288;
     
     // Scene settings
-    this.rainCount = 5000;
+    this.rainCount = 6000;
     this.animationIndex = 9;
     
     // Initialize
@@ -89,7 +89,7 @@ class RainyScene {
   
   initScene() {
     // Scene environment
-    this.scene.fog = new THREE.Fog(this.FOG_COLOR, 80, 1);
+    this.scene.fog = new THREE.Fog(this.FOG_COLOR, 10, 80);
     this.scene.background = new THREE.Color(this.FOG_COLOR);
   }
   
