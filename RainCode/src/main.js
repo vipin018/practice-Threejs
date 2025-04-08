@@ -488,7 +488,7 @@ class RainyScene {
   }
   
   triggerThunder() {
-    const flashIntensity = 5 + Math.random() * 5;
+    const flashIntensity = 10 + Math.random() * 5;
     this.thunderLight.intensity = flashIntensity;
     this.flashPlane.material.opacity = 0.4;
     
