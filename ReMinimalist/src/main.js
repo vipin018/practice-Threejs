@@ -22,6 +22,8 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
+// scene.background = new THREE.Color("blue");
+
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -36,25 +38,29 @@ scene.add(spotLight);
 
 const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight1.position.set(1, 2, 3);
-scene.add(directionalLight1);
+// scene.add(directionalLight1);
 
 const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight2.position.set(-1, -2, -3);
-scene.add(directionalLight2);
+// scene.add(directionalLight2);
 
 const pointLight = new THREE.PointLight(0xffffff, 10, 100, 1);
-pointLight.position.set(0, 2, 0);
+pointLight.position.set(0, 1, 0);
 // scene.add(pointLight);
+
+const backlight  = new THREE.DirectionalLight(0xffffff, 10);
+backlight.position.set(0, -1, 0);
+scene.add(backlight);
 
 // Texture
 const textureLoader = new THREE.TextureLoader();
 const texture = textureLoader.load(
-  '/texture/texture4.png',
+  '/texture/texture4.jpg',
   () => {
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.wrapS = THREE.ClampToEdgeWrapping;
 texture.wrapT = THREE.ClampToEdgeWrapping;
-texture.repeat.set(1, 1);
+texture.repeat.set(20, 10);
   },
   undefined,
   (error) => {
@@ -65,7 +71,7 @@ texture.repeat.set(1, 1);
 // Load GLB Model
 const loader = new GLTFLoader();
 loader.load(
-  '/model/model.glb',
+  '/model/perfume.glb',
   (gltf) => {
     const model = gltf.scene;
 
@@ -76,7 +82,7 @@ loader.load(
       }
     });
 
-    model.scale.set(20, 20, 20);
+    // model.scale.set(20, 20, 20);
     model.position.set(0, -1, 0);
     scene.add(model);
   },
@@ -112,7 +118,5 @@ function animate() {
 
   spotLight.position.x = Math.sin(elapsedTime);
   spotLight.position.y = Math.cos(elapsedTime);
-
-  model.rotation.y += 20 ;
 }
 animate();
