@@ -1,0 +1,361 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 8564,
+      "max": [
+        0.026076387614011765,
+        0.012653897516429424,
+        0.10707055032253265
+      ],
+      "min": [
+        -0.026076387614011765,
+        -0.012653897516429424,
+        0.02618017978966236
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 102768,
+      "componentType": 5126,
+      "count": 8564,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -0.9434017539024353
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 8564,
+      "max": [
+        0.9684043526649475,
+        0.8676188588142395
+      ],
+      "min": [
+        0.00014736242883373052,
+        0.00014731996634509414
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 37632,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 205536,
+      "componentType": 5126,
+      "count": 1450,
+      "max": [
+        0.0181894488632679,
+        0.012404268607497215,
+        0.026298029348254204
+      ],
+      "min": [
+        -0.01820092275738716,
+        -0.012404268607497215,
+        1.6879101167432964e-05
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 222936,
+      "componentType": 5126,
+      "count": 1450,
+      "max": [
+        0.9976427555084229,
+        0.9997060894966125,
+        1.0
+      ],
+      "min": [
+        -0.9976299405097961,
+        -0.9997060894966125,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 68512,
+      "componentType": 5126,
+      "count": 1450,
+      "max": [
+        0.8519464731216431,
+        0.9998397827148438
+      ],
+      "min": [
+        0.00016034940199460834,
+        0.0001603003329364583
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 150528,
+      "componentType": 5125,
+      "count": 7764,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Miles Q (https://sketchfab.com/MilesQuarittch)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/professional-cream-tube-mockup-d1dce8d5fe774f90a9653fd0d49f7b2f",
+      "title": "Professional Cream Tube Mockup"
+    },
+    "generator": "Sketchfab-16.16.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 181584,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 80112,
+      "byteOffset": 181584,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 240336,
+      "byteOffset": 261696,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 502032,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "cream_tube_15ml.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.37626212299090633,
+          0.37626212299090633,
+          0.37626212299090633,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.254
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "cream_tcap_15ml.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.37626212299090633,
+          0.37626212299090633,
+          0.37626212299090633,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.254
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "cream_tube_15ml.001_cream_tube_15ml.001_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "cream_cap_15ml.001_cream_tcap_15ml.001_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "4c920d5bcc52407d98430460d78501cc.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        6
+      ],
+      "matrix": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.629206793918314e-05,
+        -99.99999999999868,
+        0.0,
+        0.0,
+        99.99999999999868,
+        -1.629206793918314e-05,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Empty"
+    },
+    {
+      "children": [
+        5
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -2.646977960169688e-23,
+        0.0,
+        0.0,
+        2.646977960169688e-23,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "cream_tube_15ml.001"
+    },
+    {
+      "mesh": 0,
+      "name": "cream_tube_15ml.001_cream_tube_15ml.001_0"
+    },
+    {
+      "children": [
+        7
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -2.646977960169688e-23,
+        0.0,
+        0.0,
+        2.646977960169688e-23,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "cream_cap_15ml.001"
+    },
+    {
+      "mesh": 1,
+      "name": "cream_cap_15ml.001_cream_tcap_15ml.001_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
