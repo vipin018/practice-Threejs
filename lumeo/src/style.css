@@ -1,81 +1,122 @@
-
 * {
-padding: 0;
-margin: 0;
-box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 html,
 body {
-height: 100%;
-width: 100%;
-background-color: #171818;
-font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+  height: 100%;
+  width: 100%;
+  /* New background color and font */
+  background-color: #111111; /* Very dark grey */
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font */
+  overflow: hidden; /* Prevent scrollbars */
+  color: #e0e0e0; /* Default light text color */
 }
 
-canvas {
-position: fixed;
-top: 0;
-left: 0;
-z-index: 9;
+/* Canvas styling: fixed position, covers viewport */
+canvas#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9; /* Below other UI elements */
+  display: block;
+  outline: none;
 }
 
+/* Navigation styling - Top Right */
 nav {
   position: fixed;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 20px; /* Position from top */
+  right: 30px; /* Position from right */
+  left: auto; /* Override default left positioning */
+  transform: none; /* Remove previous transform */
   display: flex;
-  gap: 50px;
-  margin-top: 10px;
-  padding: 10px 20px;
-  border-radius: 9999px;
-  backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.334);
-  a {
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  a:hover {
-    color: #00ff99;
-    transition: all 0.3s linear;
-  }
-  
+  gap: 25px; /* Spacing between links */
+  padding: 8px 0; /* Vertical padding, no horizontal needed */
+  /* Removed background/blur for cleaner look */
+  /* background-color: rgba(255, 255, 255, 0.05); */
+  /* backdrop-filter: none; */
+  /* border-radius: 0; */
+  /* box-shadow: none; */
+  z-index: 11; /* Ensure nav is above canvas and hero text */
 }
 
+nav a {
+  color: rgba(255, 255, 255, 0.7); /* Slightly muted white */
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 1rem; /* Slightly smaller */
+  font-weight: 400; /* Regular weight */
+}
+
+nav a:hover {
+  color: #ffffff; /* Bright white on hover */
+}
+
+/* Hero text styling - Centered, adjusted appearance */
 #hero_text {
   position: fixed;
-  top: 60%;
+  top: 50%; /* Position slightly higher */
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 1; /* Above canvas, below nav */
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
 }
 
 #hero_text h1 {
-  font-size: 50vh;
-  font-weight: 700;
-  text-align: center;
-  color: white;
+  font-size: 30vh; /* Slightly smaller */
+  font-weight: 700; /* Bold weight from Poppins */
+  color: rgba(255, 255, 255, 0.15); /* More subtle/transparent */
   text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 2px; /* Add slight letter spacing */
 }
 
+/* Loading indicator styling - Unchanged */
+#loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.2em;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 8px 15px;
+  border-radius: 5px;
+  display: none;
+  z-index: 12; /* Highest z-index */
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  #hero_text {
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
   nav {
-    top: 4px;
+      top: 15px;
+      right: 20px;
+      gap: 20px;
+  }
+  nav a {
+      font-size: 0.9rem;
+  }
+  #hero_text h1 {
+      font-size: 20vh; /* Adjusted for mobile */
+      letter-spacing: 1px;
   }
   #hero_text {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    h1 {
-      font-size: 20vh;
-    }
+       top: 50%;
   }
+}
+@media (max-width: 480px) {
+   #hero_text h1 {
+      font-size: 15vh; /* Further adjust for small screens */
+  }
+   nav {
+      gap: 15px;
+      right: 15px;
+   }
+   nav a {
+      font-size: 0.85rem;
+   }
 }

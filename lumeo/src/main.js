@@ -1,126 +1,198 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
-import gsap from 'gsap';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+// RGBELoader is removed as it's not needed for MatCap
 
-// === SCENE & CAMERA SETUP ===
-const scene = new THREE.Scene();
-// scene.background = new THREE.Color('#343434');
-
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-
-// === RENDERER ===
+// === DOM ELEMENTS ===
 const canvas = document.querySelector('#canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+const loadingIndicator = document.querySelector('#loading-indicator');
+
+// === SCENE SETUP ===
+const scene = new THREE.Scene();
+// No scene background color needed if renderer alpha is true and body has background
+// scene.background = new THREE.Color(0x1a1a1a); // Optional: Set if alpha is false
+
+// === CAMERA SETUP ===
+const camera = new THREE.PerspectiveCamera(
+    75, // Field of View (degrees)
+    window.innerWidth / window.innerHeight, // Aspect Ratio
+    0.1, // Near clipping plane
+    1000 // Far clipping plane
+);
+camera.position.set(0, 0, 5); // Adjusted initial position slightly
+
+// === RENDERER SETUP ===
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,    // Target canvas
+    antialias: true,   // Smooth edges
+    alpha: true        // Make canvas transparent to see HTML background/elements
+});
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Adjust for device pixel ratio
+renderer.outputEncoding = THREE.sRGBEncoding; // Correct color output
+// Tone mapping is not needed for MatCap material
+// renderer.toneMapping = THREE.ACESFilmicToneMapping;
+// renderer.toneMappingExposure = 1.0;
+
+// === LOADING MANAGER ===
+// Manages loading progress for textures and models
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+    console.log(`Loading started: ${url} (${itemsLoaded}/${itemsTotal})`);
+    loadingIndicator.style.display = 'block';
+    loadingIndicator.textContent = 'Loading... 0%';
+};
+loadingManager.onLoad = () => {
+    console.log('Loading complete!');
+    loadingIndicator.style.display = 'none';
+};
+loadingManager.onError = (url) => {
+    console.error(`Loading error: ${url}`);
+    loadingIndicator.textContent = 'Error loading assets!';
+    loadingIndicator.style.color = 'red';
+};
+loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+    const progress = Math.round((itemsLoaded / itemsTotal) * 100);
+    console.log(`Loading progress: ${url} (${itemsLoaded}/${itemsTotal} - ${progress}%)`);
+    loadingIndicator.textContent = `Loading... ${progress}%`;
+};
+
+// === TEXTURE LOADER (for MatCap) ===
+const textureLoader = new THREE.TextureLoader(loadingManager); // Use loading manager
+// !!! IMPORTANT: Replace with your actual MatCap texture path or URL !!!
+const matcapTexturePath = '/texture/tex2.jpg'; // <<< YOUR MATCAP PATH HERE
+let matcapTexture = null; // Initialize
+
+try {
+     matcapTexture = textureLoader.load(
+        matcapTexturePath,
+        (texture) => { // onLoad
+            texture.encoding = THREE.sRGBEncoding; // Set correct encoding
+            texture.needsUpdate = true; // Usually handled automatically, but safe to include
+            console.log('MatCap texture loaded.');
+            // Re-apply material if model loaded first (edge case)
+            if (model && bottleMaterial) {
+                 bottleMaterial.matcap = texture;
+                 bottleMaterial.needsUpdate = true;
+            }
+        },
+        undefined, // onProgress (handled by manager)
+        (error) => { // onError
+            console.error(`Failed to load matcap texture: ${matcapTexturePath}`, error);
+        }
+    );
+} catch (error) {
+     console.error(`Error initiating texture load for: ${matcapTexturePath}`, error);
+}
+
+
+// === MATERIAL (MatCap) ===
+// Create the material; texture will be assigned in loader callback
+const bottleMaterial = new THREE.MeshMatcapMaterial();
+if (matcapTexture) { // Assign if loaded synchronously (rare, usually from cache)
+     bottleMaterial.matcap = matcapTexture;
+}
+
+// === MODEL LOADING (GLTF/GLB) ===
+let model = null; // Declare model variable
+const gltfLoader = new GLTFLoader(loadingManager); // Use loading manager
+
+const modelPath = '/model/bottle2.glb'; // <<< YOUR MODEL PATH HERE
+
+gltfLoader.load(
+    modelPath,
+    (gltf) => { // onLoad: Model loaded successfully
+        model = gltf.scene;
+        model.scale.set(0.7, 0.7, 0.7); // Set scale as per your code
+        model.position.y = -4; // Adjusted Y position for better centering
+
+        // Apply the MatCap material to all meshes in the model
+        model.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+                // Clone material if you might change properties per mesh later
+                child.material = bottleMaterial.clone();
+                 // Ensure matcap texture is assigned if it loaded after model started loading
+                 if (matcapTexture && !child.material.matcap) {
+                      child.material.matcap = matcapTexture;
+                 }
+            }
+        });
+
+        scene.add(model);
+        console.log('Model loaded successfully.');
+    },
+    undefined, // onProgress (handled by manager)
+    (error) => { // onError: Model loading failed
+        console.error(`Failed to load model: ${modelPath}`, error);
+        loadingIndicator.textContent = 'Error loading model!';
+        loadingIndicator.style.color = 'red';
+    }
+);
 
 // === LIGHTS ===
-const spotLight = new THREE.PointLight(0xffffff, 100, 100, 0.5, 10, 1);
-spotLight.position.set(0, 0, 1);
+// Lights (Ambient, Directional, etc.) are NOT needed for MeshMatcapMaterial
+// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+// scene.add(ambientLight);
+// const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+// directionalLight.position.set(5, 10, 7.5);
+// scene.add(directionalLight);
 
-const directionalLight1 = new THREE.DirectionalLight(0xffffff, 10);
-directionalLight1.position.set(2, 1, 2);
-scene.add(directionalLight1);
-const directionalLight2 = directionalLight1.clone();
-directionalLight2.position.set(-2, -1, -1);
-scene.add(directionalLight2);
-
-// Light helpers
-const lightHelper = new THREE.PointLightHelper(spotLight, 0.5);
-// scene.add(lightHelper);
-
-const directionalLightHelper1 = new THREE.DirectionalLightHelper(directionalLight1, 0.5);
-// scene.add(directionalLightHelper1);
-
-const directionalLightHelper2 = new THREE.DirectionalLightHelper(directionalLight2, 0.5);
-// scene.add(directionalLightHelper2);
-
-// === BOTTLE MATERIAL ===
-const bottleMaterial = new THREE.MeshStandardMaterial({
-  color: new THREE.Color(0x080808),
-  roughness: 0.3,
-  metalness: 0.9,
-  emissive: new THREE.Color(0x080808),
-  emissiveIntensity: 0.5,
-});
-
-// === GLTF MODEL LOAD ===
-const loader = new GLTFLoader();
-loader.load('/model/bottle2.glb', (gltf) => {
-  const model = gltf.scene;
-  model.scale.set(0.7, 0.7, 0.7);
-  model.position.y = -3;
-
-  model.traverse((child) => {
-    if (child instanceof THREE.Mesh) {
-      child.material = bottleMaterial.clone();
-    }
-  });
-
-  scene.add(model);
-}, undefined, (error) => {
-  console.error('Failed to load model:', error);
-});
-
-// === HDRI ENVIRONMENT ===
-const rgbeLoader = new RGBELoader();
-rgbeLoader.load('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/photo_studio_01_2k.hdr', (environmentMap) => {
-  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
-  // scene.background = environmentMap;
-  scene.environment = environmentMap;
-});
-
-// === CONTROLS ===
-// const controls = new OrbitControls(camera, renderer.domElement);
-// controls.enableDamping = true;
+// === CONTROLS (OrbitControls) ===
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; // Smooth camera movement
+controls.dampingFactor = 0.05;
+controls.screenSpacePanning = false; // Keep panning centered
+controls.minDistance = 1;
+controls.maxDistance = 20;
+controls.target.set(0, -1, 0); // Adjust target slightly based on model position
+controls.update();
 
 // === RESIZE HANDLER ===
-window.addEventListener('resize', () => {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-});
+const handleResize = () => {
+    // Update camera
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    // Update renderer
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // No need to set clear color/alpha here if renderer alpha is true
+};
+window.addEventListener('resize', handleResize);
 
 // === ANIMATION LOOP ===
 const clock = new THREE.Clock();
 function animate() {
-  const elapsedTime = clock.getElapsedTime();
-  // controls.update();
+    requestAnimationFrame(animate); // Loop animation
 
-  // Animate directional lights
-  directionalLight1.position.x = -Math.sin(elapsedTime * 1);
-  directionalLight1.position.y = Math.cos(elapsedTime * 1);
+    const elapsedTime = clock.getElapsedTime();
 
-  directionalLight2.position.x = Math.sin(elapsedTime * 1);
-  directionalLight2.position.y = -Math.cos(elapsedTime * 1);
-  directionalLight2.position.z = Math.sin(elapsedTime * 1);
+    // Update controls (required for damping)
+    controls.update();
 
-  // Subtle camera pulsing
-  camera.position.z = 5 + Math.sin(elapsedTime * 0.5) * 0.2;
+    // --- Optional Animations ---
+    // Example: Rotate model slowly
+    if (model) {
+        model.rotation.y = elapsedTime * 0.1;
+    }
 
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
+    // Render the scene
+    renderer.render(scene, camera);
 }
+
+// Start the animation loop
 animate();
 
-// === NAVBAR GSAP ANIMATIONS ===
-
-const nav = document.querySelector('nav');
-gsap.from(nav, {
-  opacity: 0,
-  duration: 2,
-  scale: 0,
-  ease: 'elastic.out',
+// === MOUSE EVENTS (Removed) ===
+// The direct mousemove camera manipulation conflicts with OrbitControls
+// and is generally less user-friendly. OrbitControls handles interaction.
+/*
+window.addEventListener('mousemove', (event) => {
+     const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+     const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+     // Direct camera manipulation removed
+     // camera.position.x = mouseX * 3;
+     // camera.position.y = mouseY * 3;
+     // camera.lookAt(scene.position); // Ensure camera keeps looking at the center
 });
-
-const text = document.querySelector('#hero_text h1');
-gsap.from(text, {
-  opacity: 0,
-  duration: 2,
-  delay: 1,
-  scale: 0,
-  ease: 'bounce.out',
-});
+*/
