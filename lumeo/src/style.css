@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  cursor: none;
 }
 
 @font-face {
@@ -18,7 +19,7 @@ body {
   color: #000000;
 
   /* 🔥 Background Gradient 🔥 */
-  background: linear-gradient(135deg, #6babff, #ffd2eb);
+  background: linear-gradient(135deg, #5da3ff, #ffa9d8);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
 }
@@ -27,6 +28,21 @@ body {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(90deg, #006effb7, #ff008cad);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: 0.2s ease;
 }
 
 /* === Canvas === */
@@ -112,9 +128,12 @@ nav a:hover {
 }
 
 #camera-buttons button {
-  background: #111;
-  color: #fff;
-  border: 1px solid #444;
+  background: linear-gradient(180deg, #5ba2ff, #ff90cd);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  color: #000000;
+  border: none;
   padding: 0.5rem 1rem;
   font-size: 14px;
   border-radius: 5px;
@@ -123,8 +142,10 @@ nav a:hover {
 }
 
 #camera-buttons button:hover {
-  background: #222;
+  background-color: transparent;
   transform: scale(1.05);
+  box-shadow: none;
+  transition: 0.2s ease-in-out;
 }
 
 /* === Responsive === */
@@ -140,7 +161,7 @@ nav a:hover {
   }
 
   #hero_text h1 {
-    font-size: 20vh;
+    font-size: 15vh;
     letter-spacing: 1px;
   }
 
@@ -163,7 +184,7 @@ nav a:hover {
 
 @media (max-width: 480px) {
   #hero_text h1 {
-    font-size: 15vh;
+    font-size: 12vh;
   }
 
   nav {

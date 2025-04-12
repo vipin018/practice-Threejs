@@ -1,6 +1,9 @@
+// === Imports ===
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import gsap from 'gsap';
 
 // === DOM ===
@@ -19,6 +22,28 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+// === Lighting ===
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 10, 7);
+light.castShadow = true;
+light.shadow.mapSize.set(1024, 1024);
+light.shadow.camera.near = 0.5;
+light.shadow.camera.far = 50;
+scene.add(light);
+scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+
+// === Ground ===
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 20),
+  new THREE.ShadowMaterial({ opacity: 0.2 })
+);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = -4.5;
+ground.receiveShadow = true;
+scene.add(ground);
 
 // === Loading Manager ===
 const loadingManager = new THREE.LoadingManager();
@@ -47,14 +72,17 @@ gltfLoader.load('/model/bottle2.glb', (gltf) => {
   model.position.y = -4;
 
   model.traverse((child) => {
-    if (child.isMesh) child.material = material.clone();
+    if (child.isMesh) {
+      child.material = material.clone();
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
   });
 
   scene.add(model);
   runIntroAnimation();
 });
 
-// === GSAP Animation ===
 function runIntroAnimation() {
   gsap.to(model.scale, {
     x: 0.9,
@@ -70,14 +98,6 @@ function runIntroAnimation() {
     duration: 1.5,
     ease: "power2.out"
   });
-
-  gsap.from("#hero_text h1", {
-    opacity: 0,
-    y: 50,
-    duration: 1.2,
-    ease: "power3.out",
-    delay: 0.6
-  });
 }
 
 // === Controls ===
@@ -85,6 +105,8 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.target.set(0, -1, 0);
+controls.enableZoom = false;
+controls.enableRotate = false;
 controls.update();
 
 // === Camera Presets ===
@@ -103,12 +125,66 @@ function setCamera(x, y, z) {
   });
 }
 
-// === Buttons Hook ===
 document.querySelectorAll('#camera-buttons button').forEach(btn => {
   const view = btn.dataset.view;
   if (cameraPresets[view]) {
     btn.addEventListener('click', () => cameraPresets[view]());
   }
+});
+
+// === Text Geometry ===
+let textMesh;
+const fontLoader = new FontLoader(loadingManager);
+fontLoader.load('/fonts/Satoshi Variable_Bold.json', (font) => {
+  const textGeometry = new TextGeometry('LUMEO', {
+    font: font,
+    size: 5,
+    height: 0.5,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.02,
+    bevelSize: 0.02,
+    bevelSegments: 5,
+    depth: 1,
+  });
+
+  textGeometry.center();
+
+  const textMaterial = new THREE.MeshStandardMaterial({
+    color: "#BCC0C6",
+    metalness: 0.9,
+    roughness: 0.2,
+    emissive: "#ffffff",
+    emissiveIntensity: 0.1,
+    transparent: true,
+    opacity: 0
+  });
+
+  textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  textMesh.position.set(0, -2, -2);
+  textMesh.receiveShadow = true;
+  scene.add(textMesh);
+
+  gsap.from(textMesh.scale, {
+    x: 0.5, y: 0.5, z: 0.5,
+    duration: 1.2,
+    ease: 'bounce.out',
+    delay: 0.8
+  });
+
+  gsap.from(textMesh.position, {
+    y: -6,
+    duration: 1.5,
+    ease: 'elastic.out',
+    delay: 0.8
+  });
+
+  gsap.to(textMaterial, {
+    opacity: 1,
+    duration: 1.2,
+    ease: "elastic.out",
+    delay: 0.9
+  });
 });
 
 // === Resize ===
@@ -118,12 +194,32 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// === Loop ===
+// === Animation Loop ===
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
-  if (model) model.rotation.y = clock.getElapsedTime() * 0.1;
+  if (model) {
+    model.rotation.y = clock.getElapsedTime() * 0.5;
+  }
+
+  light.position.x = Math.sin(clock.getElapsedTime() * 0.5) * 5;
+  light.position.z = Math.cos(clock.getElapsedTime() * 0.5) * 5;
+
+  if (textMesh) {
+    textMesh.rotation.x = Math.abs(Math.sin(clock.getElapsedTime() * 0.5)*0.5);
+  }
+
   controls.update();
   renderer.render(scene, camera);
 }
+
 animate();
+
+// custom cursor
+
+const cursor = document.querySelector('.cursor');
+
+document.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
