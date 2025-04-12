@@ -3,19 +3,25 @@
   margin: 0;
   box-sizing: border-box;
 }
+@font-face {
+  font-family: 'satoshi';
+  src: url('/fonts/Satoshi-Variable.ttf') format('truetype');
+}
+
 html,
 body {
   height: 100%;
   width: 100%;
   /* New background color and font */
-  background-color: #111111; /* Very dark grey */
-  font-family: 'Poppins', sans-serif; /* Apply Poppins font */
+  background-color:#87aeb74d; /* Very dark grey */
+  font-family: 'satoshi', sans-serif;
   overflow: hidden; /* Prevent scrollbars */
-  color: #e0e0e0; /* Default light text color */
+  color: #000000; /* Default light text color */
 }
 
+
 /* Canvas styling: fixed position, covers viewport */
-canvas#canvas {
+canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -34,16 +40,11 @@ nav {
   display: flex;
   gap: 25px; /* Spacing between links */
   padding: 8px 0; /* Vertical padding, no horizontal needed */
-  /* Removed background/blur for cleaner look */
-  /* background-color: rgba(255, 255, 255, 0.05); */
-  /* backdrop-filter: none; */
-  /* border-radius: 0; */
-  /* box-shadow: none; */
   z-index: 11; /* Ensure nav is above canvas and hero text */
 }
 
 nav a {
-  color: rgba(255, 255, 255, 0.7); /* Slightly muted white */
+  color: rgb(0, 0, 0); /* Slightly muted white */
   text-decoration: none;
   transition: color 0.3s ease;
   font-size: 1rem; /* Slightly smaller */
@@ -67,9 +68,9 @@ nav a:hover {
 }
 
 #hero_text h1 {
-  font-size: 30vh; /* Slightly smaller */
+  font-size: 60vh; /* Slightly smaller */
   font-weight: 700; /* Bold weight from Poppins */
-  color: rgba(255, 255, 255, 0.15); /* More subtle/transparent */
+  color: rgba(0, 0, 0, 0.547); /* More subtle/transparent */
   text-transform: uppercase;
   line-height: 1;
   letter-spacing: 2px; /* Add slight letter spacing */
@@ -81,7 +82,7 @@ nav a:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 1.2em;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 8px 15px;
@@ -89,6 +90,33 @@ nav a:hover {
   display: none;
   z-index: 12; /* Highest z-index */
 }
+
+#camera-buttons {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+}
+
+#camera-buttons button {
+  background: #111;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#camera-buttons button:hover {
+  background: #222;
+  transform: scale(1.05);
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -107,6 +135,19 @@ nav a:hover {
   #hero_text {
        top: 50%;
   }
+  #camera-buttons {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  #camera-buttons button {
+    font-size: 12px;
+    padding: 0.7rem 0.9rem;
+  }
+  #camera-buttons button:active {
+    background: #222;
+    transform: scale(1.05);
+  }
 }
 @media (max-width: 480px) {
    #hero_text h1 {
@@ -118,5 +159,15 @@ nav a:hover {
    }
    nav a {
       font-size: 0.85rem;
+   }
+   #camera-buttons {
+    bottom: 5px;
+   }
+   #camera-buttons button {
+    font-size: 10px;
+   }
+   #camera-buttons button:active {
+    background: #222;
+    transform: scale(1.05);
    }
 }
