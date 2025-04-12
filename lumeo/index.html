@@ -1,39 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lumeo</title>
-  <link rel="stylesheet" href="/src/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Showcase</title>
+  <link rel="stylesheet" href="/src/style.css" />
 </head>
-
 <body>
-  <canvas id="canvas"></canvas>
+  <div id="loading-indicator">Loading...</div>
 
   <nav>
-      <a href="#">Home</a>
-      <a href="#">Features</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
+    <a href="#">Home</a>
+    <a href="#">Product</a>
+    <a href="#">Contact</a>
   </nav>
 
   <div id="hero_text">
-      <h1>CELLO</h1>
+    <h1>HYDRATE</h1>
   </div>
-
-  <div id="loading-indicator">Loading...</div>
 
   <div id="camera-buttons">
-    <button data-view="Front View">Front</button>
-    <button data-view="Top View">Top</button>
-    <button data-view="Side View">Side</button>
-    <button data-view="Isometric">Isometric</button>
+    <button data-view="front">Front</button>
+    <button data-view="top">Top</button>
+    <button data-view="side">Side</button>
   </div>
 
-
+  <canvas id="canvas"></canvas>
   <script type="module" src="/src/main.js"></script>
 </body>
-
 </html>
