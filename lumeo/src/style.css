@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 @font-face {
   font-family: 'satoshi';
   src: url('/fonts/Satoshi-Variable.ttf') format('truetype');
@@ -12,71 +13,79 @@ html,
 body {
   height: 100%;
   width: 100%;
-  /* New background color and font */
-  background-color:#87aeb74d; /* Very dark grey */
   font-family: 'satoshi', sans-serif;
-  overflow: hidden; /* Prevent scrollbars */
-  color: #000000; /* Default light text color */
+  overflow: hidden;
+  color: #000000;
+
+  /* 🔥 Background Gradient 🔥 */
+  background: linear-gradient(135deg, #6babff, #ffd2eb);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-/* Canvas styling: fixed position, covers viewport */
+/* === Canvas === */
 canvas {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9; /* Below other UI elements */
+  z-index: 9;
   display: block;
   outline: none;
 }
 
-/* Navigation styling - Top Right */
+/* === Navigation === */
 nav {
   position: fixed;
-  top: 20px; /* Position from top */
-  right: 30px; /* Position from right */
-  left: auto; /* Override default left positioning */
-  transform: none; /* Remove previous transform */
+  top: 20px;
+  right: 30px;
+  left: auto;
+  transform: none;
   display: flex;
-  gap: 25px; /* Spacing between links */
-  padding: 8px 0; /* Vertical padding, no horizontal needed */
-  z-index: 11; /* Ensure nav is above canvas and hero text */
+  gap: 25px;
+  padding: 8px 0;
+  z-index: 11;
 }
 
 nav a {
-  color: rgb(0, 0, 0); /* Slightly muted white */
+  color: rgb(255, 255, 255);
   text-decoration: none;
   transition: color 0.3s ease;
-  font-size: 1rem; /* Slightly smaller */
-  font-weight: 400; /* Regular weight */
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 nav a:hover {
-  color: #ffffff; /* Bright white on hover */
+  color: #ffce00;
 }
 
-/* Hero text styling - Centered, adjusted appearance */
+/* === Hero Text === */
 #hero_text {
   position: fixed;
-  top: 50%; /* Position slightly higher */
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1; /* Above canvas, below nav */
+  z-index: 1;
   text-align: center;
   width: 100%;
   pointer-events: none;
 }
 
 #hero_text h1 {
-  font-size: 60vh; /* Slightly smaller */
-  font-weight: 700; /* Bold weight from Poppins */
-  color: rgba(0, 0, 0, 0.547); /* More subtle/transparent */
+  font-size: 60vh;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.525);
   text-transform: uppercase;
   line-height: 1;
-  letter-spacing: 2px; /* Add slight letter spacing */
+  letter-spacing: 2px;
 }
 
-/* Loading indicator styling - Unchanged */
+/* === Loading Indicator === */
 #loading-indicator {
   position: absolute;
   top: 50%;
@@ -88,9 +97,10 @@ nav a:hover {
   padding: 8px 15px;
   border-radius: 5px;
   display: none;
-  z-index: 12; /* Highest z-index */
+  z-index: 12;
 }
 
+/* === Camera Buttons === */
 #camera-buttons {
   position: fixed;
   bottom: 20px;
@@ -117,57 +127,64 @@ nav a:hover {
   transform: scale(1.05);
 }
 
-
-/* Responsive adjustments */
+/* === Responsive === */
 @media (max-width: 768px) {
   nav {
-      top: 15px;
-      right: 20px;
-      gap: 20px;
+    top: 15px;
+    right: 20px;
+    gap: 20px;
   }
+
   nav a {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
+
   #hero_text h1 {
-      font-size: 20vh; /* Adjusted for mobile */
-      letter-spacing: 1px;
+    font-size: 20vh;
+    letter-spacing: 1px;
   }
-  #hero_text {
-       top: 50%;
-  }
+
   #camera-buttons {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
   }
+
   #camera-buttons button {
     font-size: 12px;
     padding: 0.7rem 0.9rem;
   }
+
   #camera-buttons button:active {
     background: #222;
     transform: scale(1.05);
   }
 }
+
 @media (max-width: 480px) {
-   #hero_text h1 {
-      font-size: 15vh; /* Further adjust for small screens */
+  #hero_text h1 {
+    font-size: 15vh;
   }
-   nav {
-      gap: 15px;
-      right: 15px;
-   }
-   nav a {
-      font-size: 0.85rem;
-   }
-   #camera-buttons {
+
+  nav {
+    gap: 15px;
+    right: 15px;
+  }
+
+  nav a {
+    font-size: 0.85rem;
+  }
+
+  #camera-buttons {
     bottom: 5px;
-   }
-   #camera-buttons button {
+  }
+
+  #camera-buttons button {
     font-size: 10px;
-   }
-   #camera-buttons button:active {
+  }
+
+  #camera-buttons button:active {
     background: #222;
     transform: scale(1.05);
-   }
+  }
 }

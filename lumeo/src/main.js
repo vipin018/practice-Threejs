@@ -101,6 +101,7 @@ function animateCamera(pos, target, duration = 1.2) {
   });
 }
 
+
 // === CAMERA PRESETS ===
 const cameraPresets = {
   'Front View': () => animateCamera({ x: 0, y: 0, z: 5 }, { x: 0, y: -1, z: 0 }),
