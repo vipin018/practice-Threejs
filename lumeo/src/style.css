@@ -39,6 +39,8 @@ canvas {
   z-index: 9;
   display: block;
   outline: none;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* === Navigation === */
@@ -54,16 +56,29 @@ nav {
   z-index: 11;
 }
 
+nav h2 {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 2.5rem;
+  font-weight: 900;
+  position: absolute;
+  left: -77rem;
+  font-family: 'poppins', sans-serif;
+}
+
 nav a {
   color: rgb(255, 255, 255);
   text-decoration: none;
   transition: color 0.3s ease;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 400;
 }
 
 nav a:hover {
   color: #ffce00;
+  font-weight: 600;
+  
 }
 
 /* === Hero Text === */
