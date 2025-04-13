@@ -5,12 +5,13 @@ import Footer from './Footer'
 import Navbar from './Navbar'
 import Text from './Text'
 import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing'
-import { Environment } from '@react-three/drei'
-
+import { Suspense } from 'react'
+import Loader from './Loader'
 const App = () => {
   return (
     <>
       <Navbar />
+      <Suspense fallback={<Loader />}>
       <Canvas
         className="w-full h-full"
         camera={{ position: [0, 0, 5], fov: 70 }}
@@ -24,7 +25,7 @@ const App = () => {
           <ToneMapping />
         </EffectComposer>
       </Canvas>
-      
+      </Suspense>
       {/* This will render behind the Cube */}
       <Text />
       
