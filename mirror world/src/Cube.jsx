@@ -1,8 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { useFrame, useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
-
+import { useThree } from '@react-three/fiber'
 const Cube = () => {
+
+    const { viewport } = useThree()
+
+    const scale = viewport.width < 6 ? 2 : 3 // screen chhoti toh chhota cube
   // Create video element
   const [video] = useState(() => {
     const vid = document.createElement('video')
@@ -25,7 +29,7 @@ const Cube = () => {
   })
 
   return (
-    <mesh ref={ref} position={[0,0,0]} scale={3}>
+    <mesh ref={ref} position={[0,0,0]} scale={scale}>
       <boxGeometry args={[1, 1, 1]} />
       <meshPhysicalMaterial
         transmission={1}         // lets light pass through

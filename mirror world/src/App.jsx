@@ -19,10 +19,10 @@ const App = () => {
         <ambientLight intensity={5} />
         <directionalLight position={[1, 2, 3]} intensity={1.5} color={"lightseagreen"} />
         <directionalLight position={[-1, 2, 3]} intensity={1.5} color={"seagreen"} />
-        {/* <EffectComposer>
+        <EffectComposer>
           <Bloom intensity={0.05} />
           <ToneMapping />
-        </EffectComposer> */}
+        </EffectComposer>
       </Canvas>
       
       {/* This will render behind the Cube */}
