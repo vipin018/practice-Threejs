@@ -11,12 +11,14 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Suspense fallback={<Loader />}>
+   
       <Canvas
         className="w-full h-full"
         camera={{ position: [0, 0, 5], fov: 70 }}
       >
+           <Suspense fallback={<Loader />}>
         <Cube />
+        </Suspense>
         <ambientLight intensity={5} />
         <directionalLight position={[1, 2, 3]} intensity={1.5} color={"lightseagreen"} />
         <directionalLight position={[-1, 2, 3]} intensity={1.5} color={"seagreen"} />
@@ -25,7 +27,7 @@ const App = () => {
           <ToneMapping />
         </EffectComposer>
       </Canvas>
-      </Suspense>
+
       {/* This will render behind the Cube */}
       <Text />
       

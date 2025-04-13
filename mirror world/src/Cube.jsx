@@ -4,6 +4,16 @@ import * as THREE from 'three'
 import { useThree } from '@react-three/fiber'
 const Cube = () => {
 
+    const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setReady(true)
+    }, 3000) // 3 second delay
+  }, [])
+
+  if (!ready) return null
+
     const { viewport } = useThree()
 
     const scale = viewport.width < 6 ? 2 : 3 // screen chhoti toh chhota cube
