@@ -1,40 +1,48 @@
-import {React,useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-
+import React, { useRef, useEffect, useState } from 'react'
+import { useFrame, useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 
 const Cube = () => {
+  // Create video element
+  const [video] = useState(() => {
+    const vid = document.createElement('video')
+    vid.src = '/texture/texture.mp4' // Path to your video
+    vid.loop = true
+    vid.muted = true
+    vid.play() // Start playing immediately
+    return vid
+  })
 
-    // texture on the cube
-    
+  // Use the video texture
+  const texture = new THREE.VideoTexture(video)
 
-    // animation of cube sin
-    const ref = useRef()
-    useFrame((_, delta) => {
-        ref.current.rotation.y += delta * 0.5
-    })
+  const ref = useRef()
 
-    return (
-        <mesh
-            ref={ref}
-            scale={3}
-        >
-            <boxGeometry args={[1, 1, 1]} />
-            <meshPhysicalMaterial
-                transmission={1}         // lets light pass through
-                roughness={0}            // clear glass
-                thickness={2}            // depth of glass
-                metalness={0.1}
-                reflectivity={1}
-                clearcoat={1}
-                clearcoatRoughness={0}
-                color="#ffffff"
-                opacity={0.5}
-                transparent
-                side={THREE.DoubleSide}
-            />
-        </mesh>
-    )
+  // Rotation animation
+  useFrame((state, delta) => {
+    ref.current.rotation.y += Math.sin(delta * 2) * 0.05
+    ref.current.rotation.x += Math.cos(delta * 2) * 0.02
+  })
+
+  return (
+    <mesh ref={ref} scale={3}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshPhysicalMaterial
+        transmission={1}         // lets light pass through
+        roughness={1}            // clear glass
+        thickness={10}            // depth of glass
+        metalness={0.1}
+        reflectivity={1}
+        clearcoat={1}
+        clearcoatRoughness={0}
+        color="#ffffff"
+        opacity={1}
+        transparent
+        side={THREE.DoubleSide}
+        map={texture}            // Apply the video texture to the material
+      />
+    </mesh>
+  )
 }
 
 export default Cube
