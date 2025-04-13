@@ -20,12 +20,12 @@ const Cube = () => {
 
   // Rotation animation
   useFrame((state, delta) => {
-    ref.current.rotation.y += Math.sin(delta * 2) * 0.05
-    ref.current.rotation.x += Math.cos(delta * 2) * 0.02
+    ref.current.rotation.y += Math.sin(delta * 2) * 0.1
+    // ref.current.rotation.x += Math.cos(delta * 2) * 0.02
   })
 
   return (
-    <mesh ref={ref} scale={3}>
+    <mesh ref={ref} position={[0,0,0]} scale={3}>
       <boxGeometry args={[1, 1, 1]} />
       <meshPhysicalMaterial
         transmission={1}         // lets light pass through
