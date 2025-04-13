@@ -4,19 +4,11 @@ import * as THREE from 'three'
 import { useThree } from '@react-three/fiber'
 const Cube = () => {
 
-    const [ready, setReady] = useState(false)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setReady(true)
-    }, 3000) // 3 second delay
-  }, [])
-
-  if (!ready) return null
+    
 
     const { viewport } = useThree()
 
-    const scale = viewport.width < 6 ? 2 : 3 // screen chhoti toh chhota cube
+    const scale = viewport.width < 6 ? 1.7 : 2.5 // screen chhoti toh chhota cube
   // Create video element
   const [video] = useState(() => {
     const vid = document.createElement('video')
@@ -34,13 +26,13 @@ const Cube = () => {
 
   // Rotation animation
   useFrame((state, delta) => {
-    ref.current.rotation.y += Math.sin(delta * 2) * 0.1
+    // ref.current.rotation.z += Math.sin(delta * 2) * 0.1
     // ref.current.rotation.x += Math.cos(delta * 2) * 0.02
   })
 
   return (
     <mesh ref={ref} position={[0,0,0]} scale={scale}>
-      <boxGeometry args={[1, 1, 1]} />
+      <sphereGeometry args={[1, 32, 32]} />
       <meshPhysicalMaterial
         transmission={1}         // lets light pass through
         roughness={1}            // clear glass
