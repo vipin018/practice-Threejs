@@ -11,7 +11,6 @@ const App = () => {
   return (
     <>
       <Navbar />
-   
       <Canvas
         className="w-full h-full"
         camera={{ position: [0, 0, 5], fov: 70 }}
@@ -27,10 +26,7 @@ const App = () => {
           <ToneMapping />
         </EffectComposer>
       </Canvas>
-
-      {/* This will render behind the Cube */}
-      <Text />
-      
+      <Text /> 
       <Footer />
     </>
   )
